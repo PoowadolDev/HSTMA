@@ -1,6 +1,7 @@
 from fastapi import FastAPI
-
+from database import get_db
 app = FastAPI()
+db = get_db()
 
 @app.get("/")
 def read_root():
