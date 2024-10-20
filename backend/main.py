@@ -5,6 +5,16 @@ from api.routes import tickets
 app = FastAPI()
 db = get_db()
 app.include_router(tickets.router, prefix="/api", tags=["tickets"])
+from fastapi.middleware.cors import CORSMiddleware
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Adjust this to match your frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def read_root():
