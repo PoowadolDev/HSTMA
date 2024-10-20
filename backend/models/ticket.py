@@ -1,10 +1,9 @@
-# models/ticket.py
-
-from sqlalchemy import Column, Integer, String, Text, DateTime, Enum
+from sqlalchemy import Column, String, Text, DateTime, Enum
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import declarative_base
 from datetime import datetime
 import enum
-
+import uuid
 Base = declarative_base()
 
 class StatusEnum(str, enum.Enum):
@@ -16,7 +15,7 @@ class StatusEnum(str, enum.Enum):
 class Ticket(Base):
     __tablename__ = 'tickets'
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     title = Column(String, nullable=False)
     description = Column(Text)
     contact_info = Column(String)

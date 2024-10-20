@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from database import get_db
+from api.routes import tickets
+
 app = FastAPI()
 db = get_db()
+app.include_router(tickets.router, prefix="/api", tags=["tickets"])
 
 @app.get("/")
 def read_root():
