@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Ticket } from "../data/Tickets";
+import TicketFormEdit from "./TicketFormEdit";
 
 type SortKeys = 'status' | 'created_at' | 'updated_at';
 type SortOrder = 'asc' | 'desc';
@@ -90,22 +91,37 @@ function TicketList({ tickets }: { tickets: Ticket[] }) {
             </tr>
         </thead>
             <tbody>
-                {filteredTickets.map((ticket) => (
-                    <tr key={ticket.id}>
-                    <td className="border border-slate-300 p-2">{ticket.id}</td>
-                    <td className="border border-slate-300 p-2">{ticket.title}</td>
-                    <td className="border border-slate-300 p-2">{ticket.description}</td>
-                    <td className="border border-slate-300 p-2">{ticket.contact_info}</td>
-                    <td className="border border-slate-300 p-2">{new Date(ticket.created_at).toLocaleString()}</td>
-                    <td className="border border-slate-300 p-2">{new Date(ticket.updated_at).toLocaleString()}</td>
-                    <td className="border border-slate-300 p-2">{ticket.status}</td>
-                    <td className="border border-slate-300 p-2">
-                        <button className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"><path strokeDasharray="20" strokeDashoffset="20" d="M3 21h18"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="20;0"/></path><path strokeDasharray="48" strokeDashoffset="48" d="M7 17v-4l10 -10l4 4l-10 10h-4"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.2s" dur="0.6s" values="48;0"/></path><path strokeDasharray="8" strokeDashoffset="8" d="M14 6l4 4"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.2s" values="8;0"/></path></g></svg>
-                        </button>
-                    </td>
+                {filteredTickets.length === 0 ? (
+                    <tr>
+                        <td colSpan={8} className="text-center p-4">No data or Database Issue</td>
                     </tr>
-                ))}
+                ) : (
+                    filteredTickets.map((ticket) => (
+                        <tr key={ticket.id}>
+                        <td className="border border-slate-300 p-2">{ticket.id}</td>
+                        <td className="border border-slate-300 p-2">{ticket.title}</td>
+                        <td className="border border-slate-300 p-2">{ticket.description}</td>
+                        <td className="border border-slate-300 p-2">{ticket.contact_info}</td>
+                        <td className="border border-slate-300 p-2">{new Date(ticket.created_at).toLocaleString()}</td>
+                        <td className="border border-slate-300 p-2">{new Date(ticket.updated_at).toLocaleString()}</td>
+                        <td className="border border-slate-300 p-2">{ticket.status}</td>
+                        <td className="border border-slate-300 p-2">
+                        <button
+                          onClick={() => (document.getElementById('my_modal_4') as HTMLDialogElement)?.showModal()}
+                          className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"><path strokeDasharray="20" strokeDashoffset="20" d="M3 21h18"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="20;0"/></path><path strokeDasharray="48" strokeDashoffset="48" d="M7 17v-4l10 -10l4 4l-10 10h-4"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.2s" dur="0.6s" values="48;0"/></path><path strokeDasharray="8" strokeDashoffset="8" d="M14 6l4 4"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.2s" values="8;0"/></path></g></svg>
+                        </button>
+                        <TicketFormEdit
+                          id={ticket.id}
+                          oldTitle={ticket.title || ''}
+                          oldDescription={ticket.description || ''}
+                          oldContact={ticket.contact_info || ''}
+                          oldStatus={ticket.status || ''}
+                        />
+                        </td>
+                        </tr>
+                    ))
+                )}
             </tbody>
         </table>
     </div>

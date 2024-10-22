@@ -5,7 +5,11 @@ import { Ticket } from "./data/Tickets";
 import axios from "axios";
 import TicketList from "./components/TicketList";
 import TicketForm from "./components/TicketForm";
+
 export default function Home() {
+
+  console.log(process.env.BACKEND_API_URL);
+
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +18,7 @@ export default function Home() {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/tickets');
+      const response = await axios.get(`${process.env.BACKEND_API_URL}/api/tickets`);
       setTickets(response.data);
       console.log(response.data);
     } catch (err) {
@@ -32,7 +36,7 @@ export default function Home() {
   return (
     <div className="w-[calc(100%-5rem)] h-[calc(100vh-5rem)] bg-white rounded-lg shadow-lg overflow-hidden text-slate-700 flex flex-col">
       <div className="p-4 flex justify-between items-center bg-slate-50 border-b border-slate-200">
-        <h2 className="text-xl font-semibold">Tickets</h2>
+        <h2 className="text-xl font-semibold">Helpdesk Support Ticket Management Application</h2>
         <button
           onClick={() => (document.getElementById('my_modal_3') as HTMLDialogElement)?.showModal()}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors flex items-center"
