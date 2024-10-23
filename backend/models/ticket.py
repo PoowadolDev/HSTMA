@@ -4,6 +4,8 @@ from sqlalchemy.orm import declarative_base
 from datetime import datetime
 import enum
 import uuid
+import pytz
+
 Base = declarative_base()
 
 class StatusEnum(str, enum.Enum):
@@ -11,6 +13,11 @@ class StatusEnum(str, enum.Enum):
     ACCEPTED = 'Accepted'
     RESOLVED = 'Resolved'
     REJECTED = 'Rejected'
+
+bangkok_tz = pytz.timezone('Asia/Bangkok')
+
+def bangkok_now():
+    return datetime.now(bangkok_tz)
 
 class Ticket(Base):
     __tablename__ = 'tickets'
@@ -20,8 +27,8 @@ class Ticket(Base):
     description = Column(Text)
     contact_info = Column(String)
     status = Column(Enum(StatusEnum), default=StatusEnum.PENDING)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=bangkok_now)
+    updated_at = Column(DateTime(timezone=True), default=bangkok_now, onupdate=bangkok_now)
 
     def __repr__(self):
         return f"<Ticket(id={self.id}, title='{self.title}', status='{self.status}')>"
