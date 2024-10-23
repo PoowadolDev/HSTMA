@@ -8,7 +8,7 @@ import TicketForm from "./components/TicketForm";
 
 export default function Home() {
 
-  console.log(process.env.BACKEND_API_URL);
+  console.log(process.env.NEXT_PUBLIC_BACKEND_API_URL);
 
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -18,7 +18,7 @@ export default function Home() {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(`${process.env.BACKEND_API_URL}/api/tickets`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/tickets`);
       setTickets(response.data);
       console.log(response.data);
     } catch (err) {

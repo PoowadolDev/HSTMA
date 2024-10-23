@@ -9,7 +9,7 @@ function TicketFormEdit({id, oldTitle, oldDescription, oldContact, oldStatus}: {
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         console.log(title, description, contact);
-        const response = await axios.put(`${process.env.BACKEND_API_URL}/api/tickets/${id}`, {
+        const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/tickets/${id}`, {
             title: title,
             description: description,
             contact_info: contact,

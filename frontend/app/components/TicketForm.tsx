@@ -8,7 +8,7 @@ function TicketForm() {
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         console.log(title, description, contact);
-        const response = await axios.post(`${process.env.BACKEND_API_URL}/api/tickets`, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/tickets`, {
             title: title,
             description: description,
             contact_info: contact,
