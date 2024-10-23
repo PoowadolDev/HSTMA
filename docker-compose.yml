@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:17
-    container_name: my_postgres
+    container_name: postgres
     environment:
       POSTGRES_DB: ticket_db
       POSTGRES_USER: admin
@@ -12,6 +12,29 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    environment:
+      DATABASE_URL: postgresql://admin:ADMIN1234@postgres:5432/ticket_db
+      TEST_DATABASE_URL: postgresql://admin:ADMIN1234@postgres:5432/ticket_db
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    environment:
+      NEXT_PUBLIC_BACKEND_API_URL: http://backend:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
